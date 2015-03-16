@@ -2,6 +2,8 @@
 testbed for playing with technologies
 initial goal is a platform for storing notes (thoughts) and mining interesting information from them.
 
+# java 8
+
 Goal1
 - spring boot with ReST
 
