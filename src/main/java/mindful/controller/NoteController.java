@@ -1,5 +1,7 @@
 package mindful.controller;
 
+import mindful.persistence.NoteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +17,18 @@ import java.util.Date;
 public class NoteController
 {
 
-    @RequestMapping(value = "/notes/{noteId}", method= RequestMethod.GET)
-    public ResponseEntity<Note> fetchNote(@PathVariable(value="noteId") String noteId){
+    @Autowired
+    private NoteRepository _noteRepository;
 
-        Note note = new Note();
-        note.setCreatedBy("test");
-        note.setDateCreated(new Date());
-        note.setText("testing one two three " + noteId);
+    @RequestMapping(value = "/notes/{referenceKey}", method= RequestMethod.GET)
+    public ResponseEntity<Note> fetchNote(@PathVariable(value="referenceKey") String referenceKey){
 
-        return new ResponseEntity<>(note, HttpStatus.OK);
+        Note retrieved = _noteRepository.findByReferenceKey(referenceKey);
+        if (null == retrieved){
+            return new ResponseEntity<Note>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(retrieved, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/notes", method= RequestMethod.POST)
@@ -32,6 +37,9 @@ public class NoteController
         if (note == null || note.getText() == null || note.getText().isEmpty()){
             return new ResponseEntity<>(note, HttpStatus.BAD_REQUEST);
         }
+
+        // Add the note
+        _noteRepository.save(note);
 
         return new ResponseEntity<Note>(note, HttpStatus.CREATED);
 

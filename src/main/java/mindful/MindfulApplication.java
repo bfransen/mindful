@@ -13,12 +13,12 @@ public class MindfulApplication {
     public static void main(String[] args) {
         ApplicationContext ctx = run(MindfulApplication.class, args);
 
-        System.out.println("Here are the beans wired up by spring boot");
-
-        String[] beanNames = ctx.getBeanDefinitionNames();
-        Arrays.sort(beanNames);
-        for (String beanName : beanNames) {
-            System.out.println(beanName);
-        }
+//        System.out.println("Here are the beans wired up by spring boot");
+//
+//        String[] beanNames = ctx.getBeanDefinitionNames();
+//        Arrays.sort(beanNames);
+//        for (String beanName : beanNames) {
+//            System.out.println(beanName);
+//        }
     }
 }
